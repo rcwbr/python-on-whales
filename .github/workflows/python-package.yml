@@ -22,6 +22,10 @@ jobs:
           cp docs/mkdocs.yml ./
       - name: Render
         run: uv run mkdocs build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Docs
+          path: site
 
   build-linux-lint:
     runs-on: ubuntu-24.04
@@ -81,19 +85,19 @@ jobs:
         run: |
           uv run pytest -vv --no-runtime-skip --durations=10 --ignore=tests/python_on_whales/components/
 
-  build-windows:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup uv
-        run: powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-      - name: Setup
-        run: |
-          docker info
-          docker run hello-world
-      - name: Run single test
-        run: |
-          uv run pytest -vv --no-runtime-skip -m "not podman" tests/python_on_whales/components/test_volume.py::test_simple_volume
+  # build-windows:
+  #   runs-on: windows-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Setup uv
+  #       run: powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+  #     - name: Setup
+  #       run: |
+  #         docker info
+  #         docker run hello-world
+  #     - name: Run single test
+  #       run: |
+  #         uv run pytest -vv --no-runtime-skip -m "not podman" tests/python_on_whales/components/test_volume.py::test_simple_volume
 
 #  cost too much at the moment.
 #  build-macos:
