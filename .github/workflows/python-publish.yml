@@ -19,15 +19,15 @@ jobs:
     - name: Build
       run: |
         uv build
-        mv ./dist/*.whl ./dist/python_on_whales-${{ github.ref }}-py3-none-any.whl
+        mv ./dist/*.whl ./dist/python_on_whales-${{ github.ref_name }}-py3-none-any.whl
     - name: Add release assets
       uses: actions/upload-release-asset@v1.0.1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ./dist/python_on_whales-${{ github.ref }}-py3-none-any.whl
-        asset_name: python_on_whales-${{ github.ref }}-py3-none-any.whl
+        asset_path: ./dist/python_on_whales-${{ github.ref_name }}-py3-none-any.whl
+        asset_name: python_on_whales-${{ github.ref_name }}-py3-none-any.whl
         asset_content_type: application/zip
     - name: Testing the uploaded wheel
       run: |
