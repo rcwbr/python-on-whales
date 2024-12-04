@@ -16,13 +16,19 @@ jobs:
     - uses: actions/checkout@v2
     - name: Setup uv
       run: ./scripts/install-uv.sh
-    - name: Build and publish
-      env:
-        UV_PUBLISH_USERNAME: ${{ secrets.PYPI_USERNAME }}
-        UV_PUBLISH_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+    - name: Build
       run: |
         uv build
-        uv publish
+        mv ./dist/*.whl ./dist/python_on_whales-${{ github.ref_name }}-py3-none-any.whl
+    - name: Add release assets
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ./dist/python_on_whales-${{ github.ref_name }}-py3-none-any.whl
+        asset_name: python_on_whales-${{ github.ref_name }}-py3-none-any.whl
+        asset_content_type: application/zip
     - name: Testing the uploaded wheel
       run: |
         uv run --with python-on-whales --no-project -- python -c "import python_on_whales"
