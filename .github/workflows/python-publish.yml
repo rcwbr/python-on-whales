@@ -16,9 +16,11 @@ jobs:
     - name: Setup uv
       run: ./scripts/install-uv.sh
     - name: Build and publish
-      env:
-        UV_PUBLISH_USERNAME: ${{ secrets.PYPI_USERNAME }}
-        UV_PUBLISH_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+      environment:
+        name: pypi
+        url: https://pypi.org/p/rcwbr-test-python-on-whales  # Replace <package-name> with your PyPI project name
+      permissions:
+        id-token: write
       run: |
         uv build
         uv publish

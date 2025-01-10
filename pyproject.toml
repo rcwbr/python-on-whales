@@ -3,7 +3,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "python-on-whales"
+name = "rcwbr-test-python-on-whales"
 version = "0.75.0"
 description = "A Docker client for Python, designed to be fun and intuitive!"
 readme = "README.md"
